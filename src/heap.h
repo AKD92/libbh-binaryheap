@@ -41,6 +41,7 @@ struct HeapDataStructure_ {
 
 										/* User specifed function for comparing elements		*/
 	void *tmpMemory;					/* Temporary memory used for faster swapping of elements */
+										/* Size of this tmpMemory must be equal to elemSize */
 	
 };
 
@@ -67,6 +68,7 @@ void heap_destroy(Heap *heap);
 
 
 
+
 unsigned int heap_parentIndex(unsigned int childIndex);
 
 unsigned int heap_leftChildIndex(unsigned int parentIndex);
@@ -75,27 +77,29 @@ unsigned int heap_rightChildIndex(unsigned int parentIndex);
 
 
 
-int heap_sinkLightElement(Heap *heap, unsigned int index);
 
-int heap_swimHeavyElement(Heap *heap, unsigned int index);
+int heap_sinkLightElement(Heap *heap, unsigned int index);		/* Algorithm for MAX HEAP */
 
-
-int heap_sinkHeavyElement(Heap *heap, unsigned int index);
-
-int heap_swimLightElement(Heap *heap, unsigned int index);
+int heap_swimHeavyElement(Heap *heap, unsigned int index);		/* Algorithm for MAX HEAP */
 
 
+int heap_sinkHeavyElement(Heap *heap, unsigned int index);		/* Algorithm for MIN HEAP */
+
+int heap_swimLightElement(Heap *heap, unsigned int index);		/* Algorithm for MIN HEAP */
 
 
-int heap_buildMaxHeap(Heap *heap);
 
-int heap_buildMinHeap(Heap *heap);
+
+int heap_buildMaxHeap(Heap *heap);								/* Algorithm for MAX HEAP */
+
+int heap_buildMinHeap(Heap *heap);								/* Algorithm for MIN HEAP */
+
 
 
 
 int heap_exchangeElement(unsigned int index1, unsigned int index2, Heap *heap);
 
-int heap_sort(void *elemArray, unsigned int count, unsigned int size,
+int heap_sort(void *elemArray, unsigned int nCount, unsigned int nSize,
 							int (*compare) (const void *agr1, const void *arg2));
 
 
