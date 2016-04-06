@@ -19,9 +19,9 @@
 
 
 
-#define heap_elemSize(heap)		((heap)->elemSize)
-#define heap_elemCount(heap)	((heap)->elemCount)
-#define heap_array(heap)		((heap)->pElemArray)
+#define heap_elemSize(heap)     ((heap)->elemSize)
+#define heap_elemCount(heap)    ((heap)->elemCount)
+#define heap_array(heap)        ((heap)->pElemArray)
 
 
 
@@ -97,12 +97,18 @@ int heap_buildMinHeap(Heap *heap);								/* Algorithm for MIN HEAP */
 
 
 
-int heap_exchangeElement(unsigned int index1, unsigned int index2, Heap *heap);
-
 int heap_sort(void *elemArray, unsigned int nCount, unsigned int nSize,
 							int (*compare) (const void *agr1, const void *arg2));
 
+int heap_sortAscending(void *elemArray, unsigned int nCount, unsigned int nSize,
+							int (*compare) (const void *agr1, const void *arg2));
+							
+int heap_sortDescending(void *elemArray, unsigned int nCount, unsigned int nSize,
+							int (*compare) (const void *agr1, const void *arg2));
 
+
+
+int heap_exchangeElement(unsigned int index1, unsigned int index2, Heap *heap);
 
 
 
