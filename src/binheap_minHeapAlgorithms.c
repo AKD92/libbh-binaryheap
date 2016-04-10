@@ -17,104 +17,111 @@
 
 
 
-int binheap_sinkHeavyElement(BinHeap *heap, unsigned int index) {					/* This is MIN-HEAPIFY operation */
-	
-	unsigned int smallest;
-	unsigned int left, right;
-	int stepCount;
-	
-	char *elemArray;
-	char *elemLeft, *elemRight, *elemSmallest, *elemCurrent;
 
-	if (index >= binheap_elemCount(heap)) {
+
+
+int binheap_sinkHeavyElement(BinHeap *heap, unsigned int index) {			/* This is MIN-HEAPIFY operation */
+	
+	int iStepCount;
+	unsigned int uiSmallest;
+	unsigned int left, right;
+	
+	unsigned char *pArray;
+	unsigned char *pCurrent, *pLeft, *pRight, *pSmallest;
+
+	if (index >= binheap_elemCount(heap))
 		return -1;
-	}
-	stepCount = 0;
+	if (index == binheap_elemCount(heap) - 1)
+		return 0;
+	
+	iStepCount = 0;
+	pArray = (unsigned char *) binheap_array(heap);
 	
 	/********************************************************************************
-		Recursive call to binheap_sinkLightElement() with a different index 'smallest'
+		Recursive call to binheap_sinkLightElement() with a different index 'uiSmallest'
 		For the sake of efficiency, an iterative approach might be helpful
 		Utilizing simple GOTO statement as a way of iteration/looping.
 	********************************************************************************/
 	
 	REPEAT:																/* Code in iterative approach */
-	
-	smallest = index;
+	uiSmallest = index;
 	left = binheap_leftChildIndex(index);
 	right = binheap_rightChildIndex(index);
 	
-	elemArray = (char *) binheap_array(heap);
-	elemLeft = elemArray + (binheap_elemSize(heap) * left);
-	elemRight = elemArray + (binheap_elemSize(heap) * right);
-	elemCurrent = elemArray + (binheap_elemSize(heap) * index);
-	elemSmallest = elemArray + (binheap_elemSize(heap) * smallest);
+	pLeft = pArray + (binheap_elemWidth(heap) * left);
+	pRight = pArray + (binheap_elemWidth(heap) * right);
+	pCurrent = pArray + (binheap_elemWidth(heap) * index);
+	pSmallest = pArray + (binheap_elemWidth(heap) * uiSmallest);
 	
 	if ( left < binheap_elemCount(heap)
-		&& heap->compare((const void*) elemLeft, (const void*) elemCurrent) < 0 )
+		&& heap->fpCompare((const void*) pLeft, (const void*) pCurrent) < 0 )
 	{
-		smallest = left;
-		elemSmallest = elemArray + (binheap_elemSize(heap) * smallest);
+		uiSmallest = left;
+		pSmallest = pArray + (binheap_elemWidth(heap) * uiSmallest);
 	}
 	if ( right < binheap_elemCount(heap)
-		&& heap->compare((const void*) elemRight, (const void*) elemSmallest) < 0 )
+		&& heap->fpCompare((const void*) pRight, (const void*) pSmallest) < 0 )
 	{
-		smallest = right;
-		elemSmallest = elemArray + (binheap_elemSize(heap) * smallest);
+		uiSmallest = right;
+		pSmallest = pArray + (binheap_elemWidth(heap) * uiSmallest);
 	}
 	
-	if ( smallest != index ) {
+	if ( uiSmallest != index ) {
 		
-		binheap_exchangeElement (index, smallest, heap);
-		stepCount = stepCount + 1;									/* Code in iterative approach */
+		binheap_exchangeElement (index, uiSmallest, heap);
+		iStepCount = iStepCount + 1;									/* Code in iterative approach */
 		
 		/********************************************************************************
-			Recursive call to binheap_sinkLightElement() with a different index 'smallest'
+			Recursive call to binheap_sinkLightElement() with a different index 'uiSmallest'
 			Can be done through an iterative approach (more efficient for computers)
-			By stating 'index = smallest' and then repeat again. Revision required.
+			By stating 'index = uiSmallest' and then repeat again. Revision required.
 		********************************************************************************/
 		
-		/* stepCount = 1 + binheap_sinkHeavyElement(heap, smallest); */	/* Code in recursive approach */
+		/* iStepCount = 1 + binheap_sinkHeavyElement(heap, uiSmallest); */	/* Code in recursive approach */
 		
-		index = smallest;											/* Code in iterative approach */
+		index = uiSmallest;											/* Code in iterative approach */
 		goto REPEAT;												/* Code in iterative approach */
 	}
 	
-	return stepCount;
+	return iStepCount;
 }
 
 
 
 int binheap_swimLightElement(BinHeap *heap, unsigned int index) {				/* This is HEAP-SWIM operation		*/
 	
-	int cmpResult, stepCount;
+	int iCompareVal, iStepCount;
 	unsigned int iParent;
-	char *elemParent, *elemCurrent, *elemArray;
 	register unsigned int iCurrent;
+	unsigned char *pArray, *pParent, *pCurrent;
 	
-	if (index >= binheap_elemCount(heap)) {						/* Check for invalid index argument */
+	if (index >= binheap_elemCount(heap))						/* Check for invalid index argument */
 		return -1;
-	}
+	
+	if (index == 0)
+		return 0;
 	
 	iCurrent = index;
-	cmpResult = -1;
-	stepCount = 0;												/* Number of shifts/swaps needed so far */
-	elemArray = (char *) binheap_array(heap);
+	iCompareVal = 0;
+	iStepCount = 0;												/* Number of shifts/swaps needed so far */
+	pArray = (unsigned char *) binheap_array(heap);
 	
-	while (iCurrent > 0 && cmpResult < 0) {
-		iParent = binheap_parentIndex(iCurrent);
-		elemCurrent = elemArray + (binheap_elemSize(heap) * iCurrent);
-		elemParent = elemArray + (binheap_elemSize(heap) * iParent);
+	REPEAT:
+	iParent = binheap_parentIndex(iCurrent);
+	pParent = pArray + (binheap_elemWidth(heap) * iParent);
+	pCurrent = pArray + (binheap_elemWidth(heap) * iCurrent);
+	iCompareVal = heap->fpCompare((const void*) pParent, (const void*) pCurrent);
+	
+	if (iCompareVal > 0) {
+		binheap_exchangeElement(iParent, iCurrent, heap);
+		iCurrent = iParent;
+		iStepCount = iStepCount + 1;
 		
-		cmpResult = heap->compare((const void*) elemCurrent, (const void*) elemParent);
-		
-		if (cmpResult < 0) {
-			binheap_exchangeElement(iParent, iCurrent, heap);
-			iCurrent = binheap_parentIndex(iCurrent);
-			stepCount = stepCount + 1;
-		}
+		if (iCurrent > 0)
+			goto REPEAT;
 	}
 	
-	return stepCount;
+	return iStepCount;
 }
 
 
@@ -123,8 +130,11 @@ int binheap_buildMinBinHeap(BinHeap *heap) {
 	
 	register unsigned int index;
 	
+	if (heap == 0)
+		return -1;
+	
 	index = 1;
-	while ( index < heap->elemCount ) {
+	while ( index < binheap_elemCount(heap) ) {
 		binheap_swimLightElement(heap, index);						/* Perform a HEAP-SWIM operation	*/
 		index = index + 1;
 	}
@@ -132,7 +142,7 @@ int binheap_buildMinBinHeap(BinHeap *heap) {
 	/*************************************************************************************
 		Or, we could also perform a MIN-HEAPIFY operation to achieve same goal
 		
-		index = (elemCount / 2);
+		index = (binheap_elemCount(heap) / 2);
 		while (index >= 1) {
 			binheap_sinkHeavyElement(heap, index - 1);			// Perform a MIN-HEAPIFY operation
 			index = index - 1;
@@ -141,4 +151,5 @@ int binheap_buildMinBinHeap(BinHeap *heap) {
 	
 	return 0;
 }
+
 

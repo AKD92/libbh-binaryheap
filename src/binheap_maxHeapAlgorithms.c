@@ -17,104 +17,111 @@
 
 
 
-int binheap_sinkLightElement(BinHeap *heap, unsigned int index) {					/* This is MAX-HEAPIFY operation */
-	
-	unsigned int largest;
-	unsigned int left, right;
-	int stepCount;
-	
-	char *elemArray;
-	char *elemLeft, *elemRight, *elemLargest, *elemCurrent;
 
-	if (index >= binheap_elemCount(heap)) {
+
+
+int binheap_sinkLightElement(BinHeap *heap, unsigned int index) {			/* This is MAX-HEAPIFY operation */
+	
+	int iStepCount;
+	unsigned int uiLargest;
+	unsigned int left, right;
+	
+	unsigned char *pArray;
+	unsigned char *pCurrent, *pLeft, *pRight, *pLargest;
+
+	if (index >= binheap_elemCount(heap))
 		return -1;
-	}
-	stepCount = 0;
+	if (index == binheap_elemCount(heap) - 1)
+		return 0;
+	
+	iStepCount = 0;
+	pArray = (unsigned char *) binheap_array(heap);
 	
 	/********************************************************************************
-		Recursive call to binheap_sinkLightElement() with a different index 'largest'
+		Recursive call to binheap_sinkLightElement() with a different index 'uiLargest'
 		For the sake of efficiency, an iterative approach might be helpful
 		Utilizing simple GOTO statement as a way of iteration/looping.
 	********************************************************************************/
 	
 	REPEAT:																/* Code in iterative approach */
-	
-	largest = index;
+	uiLargest = index;
 	left = binheap_leftChildIndex(index);
 	right = binheap_rightChildIndex(index);
 	
-	elemArray = (char *) binheap_array(heap);
-	elemLeft = elemArray + (binheap_elemSize(heap) * left);
-	elemRight = elemArray + (binheap_elemSize(heap) * right);
-	elemCurrent = elemArray + (binheap_elemSize(heap) * index);
-	elemLargest = elemArray + (binheap_elemSize(heap) * largest);
+	pLeft = pArray + (binheap_elemWidth(heap) * left);
+	pRight = pArray + (binheap_elemWidth(heap) * right);
+	pCurrent = pArray + (binheap_elemWidth(heap) * index);
+	pLargest = pArray + (binheap_elemWidth(heap) * uiLargest);
 	
 	if ( left < binheap_elemCount(heap)
-		&& heap->compare((const void*) elemLeft, (const void*) elemCurrent) > 0 )
+		&& heap->fpCompare((const void*) pLeft, (const void*) pCurrent) > 0 )
 	{
-		largest = left;
-		elemLargest = elemArray + (binheap_elemSize(heap) * largest);
+		uiLargest = left;
+		pLargest = pArray + (binheap_elemWidth(heap) * uiLargest);
 	}
 	if ( right < binheap_elemCount(heap)
-		&& heap->compare((const void*) elemRight, (const void*) elemLargest) > 0 )
+		&& heap->fpCompare((const void*) pRight, (const void*) pLargest) > 0 )
 	{
-		largest = right;
-		elemLargest = elemArray + (binheap_elemSize(heap) * largest);
+		uiLargest = right;
+		pLargest = pArray + (binheap_elemWidth(heap) * uiLargest);
 	}
 	
-	if ( largest != index ) {
+	if ( uiLargest != index ) {
 		
-		binheap_exchangeElement (index, largest, heap);
-		stepCount = stepCount + 1;									/* Code in iterative approach */
+		binheap_exchangeElement (index, uiLargest, heap);
+		iStepCount = iStepCount + 1;									/* Code in iterative approach */
 		
 		/********************************************************************************
-			Recursive call to binheap_sinkLightElement() with a different index 'largest'
+			Recursive call to binheap_sinkLightElement() with a different index 'uiLargest'
 			Can be done through an iterative approach (more efficient for computers)
-			By stating 'index = largest' and then repeat again. Revision required.
+			By stating 'index = uiLargest' and then repeat again. Revision required.
 		********************************************************************************/
 		
-		/* stepCount = 1 + binheap_sinkLightElement(heap, largest); */	/* Code in recursive approach */
+		/* iStepCount = 1 + binheap_sinkLightElement(heap, uiLargest); */	/* Code in recursive approach */
 		
-		index = largest;											/* Code in iterative approach */
+		index = uiLargest;											/* Code in iterative approach */
 		goto REPEAT;												/* Code in iterative approach */
 	}
 	
-	return stepCount;
+	return iStepCount;
 }
 
 
 
 int binheap_swimHeavyElement(BinHeap *heap, unsigned int index) {				/* This is HEAP-SWIM operation		*/
 	
-	int cmpResult, stepCount;
+	int iCompareVal, iStepCount;
 	unsigned int iParent;
-	char *elemParent, *elemCurrent, *elemArray;
 	register unsigned int iCurrent;
+	unsigned char *pArray, *pParent, *pCurrent;
 	
-	if (index >= binheap_elemCount(heap)) {						/* Check for invalid index argument */
+	if (index >= binheap_elemCount(heap))						/* Check for invalid index argument */
 		return -1;
-	}
+	
+	if (index == 0)
+		return 0;
 	
 	iCurrent = index;
-	cmpResult = 1;
-	stepCount = 0;												/* Number of shifts/swaps needed so far */
-	elemArray = (char *) binheap_array(heap);
+	iCompareVal = 0;
+	iStepCount = 0;												/* Number of shifts/swaps needed so far */
+	pArray = (unsigned char *) binheap_array(heap);
 	
-	while (iCurrent > 0 && cmpResult > 0) {
-		iParent = binheap_parentIndex(iCurrent);
-		elemCurrent = elemArray + (binheap_elemSize(heap) * iCurrent);
-		elemParent = elemArray + (binheap_elemSize(heap) * iParent);
+	REPEAT:
+	iParent = binheap_parentIndex(iCurrent);
+	pParent = pArray + (binheap_elemWidth(heap) * iParent);
+	pCurrent = pArray + (binheap_elemWidth(heap) * iCurrent);
+	iCompareVal = heap->fpCompare((const void*) pParent, (const void*) pCurrent);
+	
+	if (iCompareVal < 0) {
+		binheap_exchangeElement(iParent, iCurrent, heap);
+		iCurrent = iParent;
+		iStepCount = iStepCount + 1;
 		
-		cmpResult = heap->compare((const void*) elemCurrent, (const void*) elemParent);
-		
-		if (cmpResult > 0) {
-			binheap_exchangeElement(iParent, iCurrent, heap);
-			iCurrent = binheap_parentIndex(iCurrent);
-			stepCount = stepCount + 1;
-		}
+		if (iCurrent > 0)
+			goto REPEAT;
 	}
 	
-	return stepCount;
+	return iStepCount;
 }
 
 
@@ -123,8 +130,11 @@ int binheap_buildMaxBinHeap(BinHeap *heap) {
 	
 	register unsigned int index;
 	
+	if (heap == 0)
+		return -1;
+	
 	index = 1;
-	while ( index < heap->elemCount ) {
+	while ( index < binheap_elemCount(heap) ) {
 		binheap_swimHeavyElement(heap, index);						/* Perform a HEAP-SWIM operation	*/
 		index = index + 1;
 	}
@@ -132,7 +142,7 @@ int binheap_buildMaxBinHeap(BinHeap *heap) {
 	/*************************************************************************************
 		Or, we could also perform a MAX-HEAPIFY operation to achieve same goal
 		
-		index = (elemCount / 2);
+		index = (binheap_elemCount(heap) / 2);
 		while (index >= 1) {
 			binheap_sinkLightElement(heap, index - 1);			// Perform a MAX-HEAPIFY operation
 			index = index - 1;
@@ -141,4 +151,5 @@ int binheap_buildMaxBinHeap(BinHeap *heap) {
 	
 	return 0;
 }
+
 

@@ -19,57 +19,75 @@
 
 
 
-int binheap_sort(void *elemArray, unsigned int nCount, unsigned int nSize,
-							int (*compare) (const void *agr1, const void *arg2)) {
+
+
+int binheap_sort(void *pArray, unsigned int nCount, unsigned int nWidth,
+							int (*fpCompare) (const void *agr1, const void *arg2)) {
 	
-	return binheap_sortAscending(elemArray, nCount, nSize, compare);
+	return binheap_sortAscending(pArray, nCount, nWidth, fpCompare);
 }
 
 
 
-int binheap_sortAscending(void *elemArray, unsigned int nCount, unsigned int nSize,
-							int (*compare) (const void *agr1, const void *arg2)) {
+
+/************************************************************************************/
+/************************************************************************************/
+
+
+int binheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
+							int (*fpCompare) (const void *agr1, const void *arg2)) {
 	
 	BinHeap heap;
-	register unsigned int iCurrent;
+	register unsigned int iElem;
 	
-	binheap_init(&heap, elemArray, nCount, nSize, compare);
+	if (pArray == 0 || fpCompare == 0 || nWidth == 0)
+		return -1;
+	if (nCount < 2)
+		return 0;
+	
+	binheap_init(&heap, pArray, nCount, nWidth, fpCompare);
 	binheap_buildMaxBinHeap(&heap);
 	
-	iCurrent = nCount - 1;
-	while (iCurrent >= 1) {
+	iElem = nCount - 1;
+	while (iElem >= 1) {
 		
-		binheap_exchangeElement (0, iCurrent, &heap);
+		binheap_exchangeElement (0, iElem, &heap);
 		heap.elemCount = heap.elemCount - 1;
 		binheap_sinkLightElement(&heap, 0);
-		iCurrent = iCurrent - 1;
+		iElem = iElem - 1;
 	}
-	binheap_destroy(&heap);
 	
+	binheap_destroy(&heap);
 	return 0;
 }
 
 
 
-int binheap_sortDescending(void *elemArray, unsigned int nCount, unsigned int nSize,
-							int (*compare) (const void *agr1, const void *arg2)) {
+int binheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth,
+							int (*fpCompare) (const void *agr1, const void *arg2)) {
 	
 	BinHeap heap;
-	register unsigned int iCurrent;
+	register unsigned int iElem;
 	
-	binheap_init(&heap, elemArray, nCount, nSize, compare);
+	if (pArray == 0 || fpCompare == 0 || nWidth == 0)
+		return -1;
+	if (nCount < 2)
+		return 0;
+	
+	binheap_init(&heap, pArray, nCount, nWidth, fpCompare);
 	binheap_buildMinBinHeap(&heap);
 	
-	iCurrent = nCount - 1;
-	while (iCurrent >= 1) {
+	iElem = nCount - 1;
+	while (iElem >= 1) {
 		
-		binheap_exchangeElement (0, iCurrent, &heap);
+		binheap_exchangeElement (0, iElem, &heap);
 		heap.elemCount = heap.elemCount - 1;
 		binheap_sinkHeavyElement(&heap, 0);
-		iCurrent = iCurrent - 1;
+		iElem = iElem - 1;
 	}
-	binheap_destroy(&heap);
 	
+	binheap_destroy(&heap);
 	return 0;
 }
+
 
