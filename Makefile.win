@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = obj/binheap_maxHeapAlgorithms.o obj/binheap_minHeapAlgorithms.o obj/binheap_sortAlgorithms.o obj/binheap_utils.o
-LINKOBJ  = obj/binheap_maxHeapAlgorithms.o obj/binheap_minHeapAlgorithms.o obj/binheap_sortAlgorithms.o obj/binheap_utils.o
+OBJ      = obj/binheap_maxHeap_algorithms.o obj/binheap_minHeap_algorithms.o obj/binheap_sort_algorithms.o obj/binheap_utility_functions.o
+LINKOBJ  = obj/binheap_maxHeap_algorithms.o obj/binheap_minHeap_algorithms.o obj/binheap_sort_algorithms.o obj/binheap_utility_functions.o
 LIBS     = -L"C:/Dev-Cpp/MinGW32/lib" -L"C:/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc -s
 INCS     = -I"C:/Dev-Cpp/MinGW32/include" -I"C:/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include"
 CXXINCS  = -I"C:/Dev-Cpp/MinGW32/include" -I"C:/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++"
@@ -25,14 +25,14 @@ $(BIN): $(LINKOBJ)
 	ar r $(BIN) $(LINKOBJ)
 	ranlib $(BIN)
 
-obj/binheap_maxHeapAlgorithms.o: src/binheap_maxHeapAlgorithms.c
-	$(CC) -c src/binheap_maxHeapAlgorithms.c -o obj/binheap_maxHeapAlgorithms.o $(CFLAGS)
+obj/binheap_maxHeap_algorithms.o: src/binheap_maxHeap_algorithms.c
+	$(CC) -c src/binheap_maxHeap_algorithms.c -o obj/binheap_maxHeap_algorithms.o $(CFLAGS)
 
-obj/binheap_minHeapAlgorithms.o: src/binheap_minHeapAlgorithms.c
-	$(CC) -c src/binheap_minHeapAlgorithms.c -o obj/binheap_minHeapAlgorithms.o $(CFLAGS)
+obj/binheap_minHeap_algorithms.o: src/binheap_minHeap_algorithms.c
+	$(CC) -c src/binheap_minHeap_algorithms.c -o obj/binheap_minHeap_algorithms.o $(CFLAGS)
 
-obj/binheap_sortAlgorithms.o: src/binheap_sortAlgorithms.c
-	$(CC) -c src/binheap_sortAlgorithms.c -o obj/binheap_sortAlgorithms.o $(CFLAGS)
+obj/binheap_sort_algorithms.o: src/binheap_sort_algorithms.c
+	$(CC) -c src/binheap_sort_algorithms.c -o obj/binheap_sort_algorithms.o $(CFLAGS)
 
-obj/binheap_utils.o: src/binheap_utils.c
-	$(CC) -c src/binheap_utils.c -o obj/binheap_utils.o $(CFLAGS)
+obj/binheap_utility_functions.o: src/binheap_utility_functions.c
+	$(CC) -c src/binheap_utility_functions.c -o obj/binheap_utility_functions.o $(CFLAGS)
