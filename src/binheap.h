@@ -59,19 +59,19 @@ void binheap_destroy(BinHeap *heap);
 
 
 
-#define binheap_size(heap)                ((heap)->elemCount)
+#define binheap_size(heap)                   ((heap)->elemCount)
 
-#define binheap_width(heap)               ((heap)->elemWidth)
+#define binheap_width(heap)                  ((heap)->elemWidth)
 
-#define binheap_array(heap)               ((heap)->pArrayElem)
+#define binheap_array(heap)                  ((heap)->pArrayElem)
 
 
 
-#define binheap_parentIndex(uChild)       (((uChild) - 1) / 2)          /* Wikipedia - Binary Heap   */
+#define binheap_parentIndex(uChild)          (((uChild) - 1) / 2)       /* Wikipedia - Binary Heap   */
 
-#define binheap_leftChildIndex(uParent)   (((uParent) * 2) + 1)
+#define binheap_leftChildIndex(uParent)      (((uParent) * 2) + 1)
 
-#define binheap_rightChildIndex(uParent)  (((uParent) * 2) + 2)
+#define binheap_rightChildIndex(uParent)     (((uParent) * 2) + 2)
 
 
 
@@ -99,10 +99,10 @@ int binheap_sort(void *pArray, unsigned int nCount, unsigned int nWidth,
                             int (*fpCompare) (const void *agr1, const void *arg2));
 
 int binheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
-                                int (*fpCompare) (const void *agr1, const void *arg2));
+                                     int (*fpCompare) (const void *agr1, const void *arg2));
                             
 int binheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth,
-                                 int (*fpCompare) (const void *agr1, const void *arg2));
+                                      int (*fpCompare) (const void *agr1, const void *arg2));
 
 
 

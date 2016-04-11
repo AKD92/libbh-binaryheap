@@ -40,7 +40,7 @@ int binheap_sort(void *pArray, unsigned int nCount, unsigned int nWidth,
 
 
 int binheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
-                                int (*fpCompare) (const void *agr1, const void *arg2))
+                                     int (*fpCompare) (const void *agr1, const void *arg2))
 {
     
     BinHeap heap;
@@ -77,7 +77,7 @@ int binheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth
 
 
 int binheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth,
-                                 int (*fpCompare) (const void *agr1, const void *arg2))
+                                      int (*fpCompare) (const void *agr1, const void *arg2))
 {
     
     BinHeap heap;
