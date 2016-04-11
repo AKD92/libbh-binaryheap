@@ -23,16 +23,16 @@
 
 struct BinaryHeap_ {
     
-    void *pArrayElem;                   /* Underlying memory blocks for the storage of elements */
+    void *pArrayElem;                          /* Underlying memory blocks for the storage of elements  */
     
-    unsigned int elemCount;             /* Number of elements the heap is currently holding     */
-    unsigned int elemWidth;             /* The size of each element, in Bytes                   */
+    unsigned int elemCount;                    /* Number of elements the heap is currently holding      */
+    unsigned int elemWidth;                    /* The size of each element, in Bytes                    */
     
-    int (*fpCompare)                    /* User specifed function for comparing arra elements   */
+    int (*fpCompare)                           /* User specifed function for comparing array elements   */
             (const void *arg1, const void *arg2);
 
-    void *pSwapMemory;                  /* Temporary memory used for faster swapping of elements */
-                                        /* Size of this pSwapMemory must be equal to elemWidth  */
+    void *pSwapMemory;                         /* Temporary memory used for faster swapping of elements */
+                                               /* Size of this pSwapMemory must be equal to elemWidth   */
     
 };
 typedef struct BinaryHeap_ BinHeap;
@@ -59,11 +59,11 @@ void binheap_destroy(BinHeap *heap);
 
 
 
-#define binheap_size(heap)          ((heap)->elemCount)
+#define binheap_size(heap)                ((heap)->elemCount)
 
-#define binheap_width(heap)         ((heap)->elemWidth)
+#define binheap_width(heap)               ((heap)->elemWidth)
 
-#define binheap_array(heap)         ((heap)->pArrayElem)
+#define binheap_array(heap)               ((heap)->pArrayElem)
 
 
 
