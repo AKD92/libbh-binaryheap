@@ -97,9 +97,9 @@ int binheap_swapElements(unsigned int index1, unsigned int index2, BinHeap *heap
     pElem1 = ((unsigned char *) binheap_array(heap)) + (binheap_width(heap) * index1);
     pElem2 = ((unsigned char *) binheap_array(heap)) + (binheap_width(heap) * index2);
     
-    memcpy((void*) heap->pSwapMemory, (const void*) pElem1,             binheap_width(heap));
-    memcpy((void*) pElem1,            (const void*) pElem2,             binheap_width(heap));
-    memcpy((void*) pElem2,            (const void*) heap->pSwapMemory,  binheap_width(heap));
+    memcpy((void *) heap->pSwapMemory, (const void *) pElem1,             binheap_width(heap));
+    memcpy((void *) pElem1,            (const void *) pElem2,             binheap_width(heap));
+    memcpy((void *) pElem2,            (const void *) heap->pSwapMemory,  binheap_width(heap));
     
     return 0;
 }

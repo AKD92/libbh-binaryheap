@@ -61,13 +61,13 @@ int binheap_sinkHeavyElement(BinHeap *heap, unsigned int index) {     /* This is
     pSmallest = pArray + (binheap_width(heap) * iSmallest);
     
     if ( iLeft < binheap_size(heap)
-        && heap->fpCompare((const void*) pLeft, (const void*) pCurrent) < 0 )
+        && heap->fpCompare((const void *) pLeft, (const void *) pCurrent) < 0 )
     {
         iSmallest = iLeft;
         pSmallest = pArray + (binheap_width(heap) * iSmallest);
     }
     if ( iRight < binheap_size(heap)
-        && heap->fpCompare((const void*) pRight, (const void*) pSmallest) < 0 )
+        && heap->fpCompare((const void *) pRight, (const void *) pSmallest) < 0 )
     {
         iSmallest = iRight;
         pSmallest = pArray + (binheap_width(heap) * iSmallest);
@@ -122,7 +122,7 @@ int binheap_swimLightElement(BinHeap *heap, unsigned int index) {     /* This is
     iParent = binheap_parentIndex(iCurrent);
     pParent = pArray + (binheap_width(heap) * iParent);
     pCurrent = pArray + (binheap_width(heap) * iCurrent);
-    iCompareVal = heap->fpCompare((const void*) pParent, (const void*) pCurrent);
+    iCompareVal = heap->fpCompare((const void *) pParent, (const void *) pCurrent);
     
     if (iCompareVal > 0) {
         
