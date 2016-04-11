@@ -20,35 +20,21 @@
 
 
 
-#define binheap_array(heap)         ((heap)->pElemArray)
-
-#define binheap_elemWidth(heap)     ((heap)->elemWidth)
-
-#define binheap_elemCount(heap)     ((heap)->elemCount)
-
-
-
-
-
 struct BinaryHeap_ {
 	
-	void *pElemArray;					/* Underlying memory blocks for the storage of elements	*/
+	void *pArrayElem;					/* Underlying memory blocks for the storage of elements	*/
 	
 	unsigned int elemCount;				/* Number of elements the heap is currently holding		*/
 	unsigned int elemWidth;				/* The size of each element, in Bytes					*/
 	
-	int (*fpCompare)
+	int (*fpCompare)					/* User specifed function for comparing arra elements	*/
 			(const void *arg1, const void *arg2);
 
-										/* User specifed function for comparing elements		*/
-	void *tmpMemory;					/* Temporary memory used for faster swapping of elements */
-										/* Size of this tmpMemory must be equal to elemWidth */
+	void *pSwapMemory;					/* Temporary memory used for faster swapping of elements */
+										/* Size of this pSwapMemory must be equal to elemWidth */
 	
 };
-
 typedef struct BinaryHeap_ BinHeap;
-
-
 
 
 
@@ -62,6 +48,17 @@ typedef struct BinaryHeap_ BinHeap;
 /*************************************************************************/
 
 
+
+
+#define binheap_array(heap)         ((heap)->pArrayElem)
+
+#define binheap_width(heap)         ((heap)->elemWidth)
+
+#define binheap_size(heap)          ((heap)->elemCount)
+
+
+
+
 int binheap_init(BinHeap *heap, void *array, unsigned int nCount,
 			unsigned int nWidth, int (*fpCompare) (const void *arg1, const void *arg2));
 
@@ -69,11 +66,13 @@ void binheap_destroy(BinHeap *heap);
 
 
 
-#define binheap_parentIndex(uChild) (((uChild) - 1) / 2)			/* From Wikipedia - Binary Heap	*/
+
+#define binheap_parentIndex(uChild) (((uChild) - 1) / 2)				/* Wikipedia - Binary Heap	*/
 
 #define binheap_leftChildIndex(uParent) (((uParent) * 2) + 1)
 
 #define binheap_rightChildIndex(uParent) (((uParent) * 2) + 2)
+
 
 
 
@@ -89,9 +88,9 @@ int binheap_swimLightElement(BinHeap *heap, unsigned int index);		/* Algorithm f
 
 
 
-int binheap_buildMaxBinHeap(BinHeap *heap);								/* Algorithm for MAX HEAP */
+int binheap_buildMaxBinaryHeap(BinHeap *heap);							/* Algorithm for MAX HEAP */
 
-int binheap_buildMinBinHeap(BinHeap *heap);								/* Algorithm for MIN HEAP */
+int binheap_buildMinBinaryHeap(BinHeap *heap);							/* Algorithm for MIN HEAP */
 
 
 
@@ -100,14 +99,14 @@ int binheap_sort(void *pArray, unsigned int nCount, unsigned int nWidth,
 							int (*fpCompare) (const void *agr1, const void *arg2));
 
 int binheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
-							int (*fpCompare) (const void *agr1, const void *arg2));
+								int (*fpCompare) (const void *agr1, const void *arg2));
 							
 int binheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth,
-							int (*fpCompare) (const void *agr1, const void *arg2));
+								int (*fpCompare) (const void *agr1, const void *arg2));
 
 
 
-int binheap_exchangeElement(unsigned int index1, unsigned int index2, BinHeap *heap);
+int binheap_swapElements(unsigned int index1, unsigned int index2, BinHeap *heap);
 
 
 
