@@ -111,7 +111,7 @@ int binheap_swimLightElement(BinHeap *heap, unsigned int index) {     /* This is
     
     
     /* nSwaps = Number of shifts/swaps needed so far */
-	nSwaps = 0;
+    nSwaps = 0;
     iCompareVal = 0;
     iCurrent = index;
     pArray = (unsigned char *) binheap_array(heap);
