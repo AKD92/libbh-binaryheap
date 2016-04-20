@@ -44,7 +44,7 @@ int biheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
 {
     
     BiHeap heap;
-    register unsigned int iElem;
+    register unsigned int iCurrent;
     
     
     /* Check for invalid algorithm arguments */
@@ -60,13 +60,13 @@ int biheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
     
     
     /* SINK all lighter elements down the Binary MAX Heap (pArray) */
-    iElem = nCount - 1;
-    while (iElem >= 1) {
+    iCurrent = nCount - 1;
+    while (iCurrent >= 1) {
         
-        biheap_swapElements (0, iElem, &heap);
+        biheap_swapElements (0, iCurrent, &heap);
         biheap_size(&heap) = biheap_size(&heap) - 1;
         biheap_sinkLightElement(&heap, 0);
-        iElem = iElem - 1;
+        iCurrent = iCurrent - 1;
     }
     
     /* Destroy temporary Binary Heap wrapper object */
@@ -81,7 +81,7 @@ int biheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth
 {
     
     BiHeap heap;
-    register unsigned int iElem;
+    register unsigned int iCurrent;
     
     
     /* Check for invalid algorithm arguments */
@@ -97,13 +97,13 @@ int biheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth
     
     
     /* SINK all heavier elements down the Binary MIN Heap (pArray) */
-    iElem = nCount - 1;
-    while (iElem >= 1) {
+    iCurrent = nCount - 1;
+    while (iCurrent >= 1) {
         
-        biheap_swapElements (0, iElem, &heap);
+        biheap_swapElements (0, iCurrent, &heap);
         biheap_size(&heap) = biheap_size(&heap) - 1;
         biheap_sinkHeavyElement(&heap, 0);
-        iElem = iElem - 1;
+        iCurrent = iCurrent - 1;
     }
     
     /* Destroy temporary Binary Heap wrapper object */
