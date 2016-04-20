@@ -1,8 +1,8 @@
 
 
 /************************************************************************************
-    Implementation of Binary Heap Algorithms
-    For Sorting using Binary Heap Data Structure (Heap Sort)
+    Implementation of Binary Heap Algorithms for Sorting arrays (Traditional Heap Sort)
+    Using Binary Heap Data Structure
     Author:             Ashis Kumar Das
     Email:              akd.bracu@gmail.com
     GitHub:             https://github.com/AKD92
