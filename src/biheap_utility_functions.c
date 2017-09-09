@@ -56,40 +56,6 @@ void biheap_destroy(BiHeap *heap) {
 
 
 
-
-
-/* unsigned int biheap_parentIndex(unsigned int childIndex) {
-    
-    unsigned int parent;
-    
-    parent = (childIndex - 1) / 2;               
-    return parent;
-}
-
-
-
-unsigned int biheap_leftChildIndex(unsigned int parentIndex) {
-    
-    unsigned int left;
-    
-    left = (parentIndex * 2) + 1;
-    return left;
-}
-
-
-
-unsigned int biheap_rightChildIndex(unsigned int parentIndex) {
-    
-    unsigned int right;
-    
-    right = (parentIndex * 2) + 2;
-    return right;
-} */
-
-
-
-
-
 int biheap_swapElements(unsigned int index1, unsigned int index2, BiHeap *heap) {
     
     unsigned char *pElem1, *pElem2;
