@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1611863115 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\biheap_maxheap_algorithms.c
+	"biheap.h"
+
+1611863115 d:\dev works\data structure & algorithms\generic binary heap\trunk\src\biheap.h
+
+1611863115 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\biheap_minheap_algorithms.c
+	"biheap.h"
+
+1611863115 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\biheap_sort_algorithms.c
+	"biheap.h"
+
+1611863115 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\biheap_utility_functions.c
+	"biheap.h"
+	<string.h>
+	<stdlib.h>
+
+1613193227 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\bh_sort_algorithms.c
+	"bh.h"
+
+1613193227 d:\dev works\data structure & algorithms\generic binary heap\trunk\src\bh.h
+
+1613190876 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\bh_utility_functions.c
+	"bh.h"
+	<string.h>
+	<stdlib.h>
+
+1613193302 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\bh_maxheap_algorithms.c
+	"bh.h"
+
+1613193302 source:d:\dev works\data structure & algorithms\generic binary heap\trunk\src\bh_minheap_algorithms.c
+	"bh.h"
+

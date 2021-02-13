@@ -12,7 +12,7 @@
 
 
 
-#include "biheap.h"
+#include "bh.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -22,8 +22,14 @@
 
 
 
-int biheap_init(BiHeap *heap, void *pArray, unsigned int nCount,
-            unsigned int nWidth, int (*fpCompare) (const void *arg1, const void *arg2))
+int bh_init
+(
+    BiHeap *heap,
+    void *pArray,
+    unsigned int nCount,
+    unsigned int nWidth,
+    int (*fpCompare) (const void *arg1, const void *arg2)
+)
 {
     
     /* Check for invalid function arguments */
@@ -41,7 +47,7 @@ int biheap_init(BiHeap *heap, void *pArray, unsigned int nCount,
 
 
 
-void biheap_destroy(BiHeap *heap) {
+void bh_destroy(BiHeap *heap) {
     
     
     /* Check for invalid algorithm arguments */
@@ -49,23 +55,26 @@ void biheap_destroy(BiHeap *heap) {
         return;
     
     free((void *) heap->pSwapMemory);
-    memset((void *) heap, 0, sizeof(BiHeap));
-    
     return;
 }
 
 
 
-int biheap_swapElements(unsigned int index1, unsigned int index2, BiHeap *heap) {
+int bh_swap(unsigned int index1, unsigned int index2, BiHeap *heap) {
     
     unsigned char *pElem1, *pElem2;
     
-    pElem1 = ((unsigned char *) biheap_array(heap)) + (biheap_width(heap) * index1);
-    pElem2 = ((unsigned char *) biheap_array(heap)) + (biheap_width(heap) * index2);
+    if (heap == 0)
+        return -1;
+    if ((index1 >= bh_size(heap)) || (index2 >= bh_size(heap)))
+        return -1;
     
-    memcpy((void *) heap->pSwapMemory, (const void *) pElem1,            biheap_width(heap));
-    memcpy((void *) pElem1,            (const void *) pElem2,            biheap_width(heap));
-    memcpy((void *) pElem2,            (const void *) heap->pSwapMemory, biheap_width(heap));
+    pElem1 = ((unsigned char *) bh_array(heap)) + (bh_width(heap) * index1);
+    pElem2 = ((unsigned char *) bh_array(heap)) + (bh_width(heap) * index2);
+    
+    memcpy((void *) heap->pSwapMemory, (const void *) pElem1,            bh_width(heap));
+    memcpy((void *) pElem1,            (const void *) pElem2,            bh_width(heap));
+    memcpy((void *) pElem2,            (const void *) heap->pSwapMemory, bh_width(heap));
     
     return 0;
 }

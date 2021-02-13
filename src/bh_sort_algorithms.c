@@ -13,7 +13,7 @@
 
 
 
-#include "biheap.h"
+#include "bh.h"
 
 
 
@@ -21,26 +21,27 @@
 
 
 
-/************************************************************************************/
-/************************************************************************************/
-
-
-int biheap_sort(void *pArray, unsigned int nCount, unsigned int nWidth,
-                            int (*fpCompare) (const void *agr1, const void *arg2))
+int bh_heapsort
+(
+    void *pArray,
+    unsigned int nCount,
+    unsigned int nWidth,
+    int (*fpCompare) (const void *agr1, const void *arg2)
+)
 {
     
-    return biheap_sortAscending(pArray, nCount, nWidth, fpCompare);
+    return bh_heapsort_asc(pArray, nCount, nWidth, fpCompare);
 }
 
 
 
-
-/************************************************************************************/
-/************************************************************************************/
-
-
-int biheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
-                                     int (*fpCompare) (const void *agr1, const void *arg2))
+int bh_heapsort_asc
+(
+    void *pArray,
+    unsigned int nCount,
+    unsigned int nWidth,
+    int (*fpCompare) (const void *agr1, const void *arg2)
+)
 {
     
     BiHeap heap;
@@ -55,29 +56,34 @@ int biheap_sortAscending(void *pArray, unsigned int nCount, unsigned int nWidth,
     
     
     /* Build a Binary MAX Heap on top of the pArray */
-    biheap_init(&heap, pArray, nCount, nWidth, fpCompare);
-    biheap_buildBinaryMaxHeap(&heap);
+    bh_init(&heap, pArray, nCount, nWidth, fpCompare);
+    bh_build_maxheap(&heap);
     
     
     /* SINK all lighter elements down the Binary MAX Heap (pArray) */
     iCurrent = nCount - 1;
     while (iCurrent >= 1) {
         
-        biheap_swapElements (0, iCurrent, &heap);
-        biheap_size(&heap) = biheap_size(&heap) - 1;
-        biheap_sinkLightElement(&heap, 0);
+        bh_swap (0, iCurrent, &heap);
+        bh_size(&heap) = bh_size(&heap) - 1;
+        bh_sink_light(&heap, 0);
         iCurrent = iCurrent - 1;
     }
     
     /* Destroy temporary Binary Heap wrapper object */
-    biheap_destroy(&heap);
+    bh_destroy(&heap);
     return 0;
 }
 
 
 
-int biheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth,
-                                      int (*fpCompare) (const void *agr1, const void *arg2))
+int bh_heapsort_desc
+(
+    void *pArray,
+    unsigned int nCount,
+    unsigned int nWidth,
+    int (*fpCompare) (const void *agr1, const void *arg2)
+)
 {
     
     BiHeap heap;
@@ -92,22 +98,22 @@ int biheap_sortDescending(void *pArray, unsigned int nCount, unsigned int nWidth
     
     
     /* Build a Binary MIN Heap on top of the pArray */
-    biheap_init(&heap, pArray, nCount, nWidth, fpCompare);
-    biheap_buildBinaryMinHeap(&heap);
+    bh_init(&heap, pArray, nCount, nWidth, fpCompare);
+    bh_build_minheap(&heap);
     
     
     /* SINK all heavier elements down the Binary MIN Heap (pArray) */
     iCurrent = nCount - 1;
     while (iCurrent >= 1) {
         
-        biheap_swapElements (0, iCurrent, &heap);
-        biheap_size(&heap) = biheap_size(&heap) - 1;
-        biheap_sinkHeavyElement(&heap, 0);
+        bh_swap (0, iCurrent, &heap);
+        bh_size(&heap) = bh_size(&heap) - 1;
+        bh_sink_heavy(&heap, 0);
         iCurrent = iCurrent - 1;
     }
     
     /* Destroy temporary Binary Heap wrapper object */
-    biheap_destroy(&heap);
+    bh_destroy(&heap);
     return 0;
 }
 
